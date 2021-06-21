@@ -12,26 +12,26 @@ class Transaction {
     this.amount = amount;
   }
 
-  computeHash(){
+  computeHash() {
     return sha256(
-        this.from +
-        this.to +
-        this.amount
+      this.from +
+      this.to +
+      this.amount
     ).toString();
   }
 
   // 签名需要private key
-  sign(privateKey){
+  sign(privateKey) {
     // 验证你拥有这笔钱。privateKey和fromAddress对应的上
-    this.signature =  privateKey.sign(this.computeHash(), 'base64').toDER('hex')
+    this.signature = privateKey.sign(this.computeHash(), 'base64').toDER('hex')
   }
 
-  isValid(){
+  isValid() {
     // from Address 就是public key
     // 有两种类型的 transaction 
-    if(this.from === null)
+    if (this.from === null)
       return true
-    if(!this.signature)
+    if (!this.signature)
       throw new Error('sig missing')
     const publicKey = ec.keyFromPublic(this.from, 'hex')
     return publicKey.verify(this.computeHash(), this.signature)
@@ -52,24 +52,20 @@ class Block {
   computeHash() {
     return sha256(
       JSON.stringify(this.transactions) +
-        this.previousHash +
-        this.nonce +
-        this.timestamp
+      this.previousHash +
+      this.nonce +
+      this.timestamp
     ).toString();
   }
 
   getAnswer(difficulty) {
     //开头前n位为0的hash
-    let answer = "";
-    for (let i = 0; i < difficulty; i++) {
-      answer += "0";
-    }
-    return answer;
+    return Array(difficulty + 1).join(0);
   }
   //计算复合区块链难度要求的hash
   // 什么是 复合区块链难度要求的hash
   mine(difficulty) {
-    if(!this.validateTransactions()){
+    if (!this.validateTransactions()) {
       throw new Error('tampered transactions found, abort, 发现异常交易，停止挖矿')
     }
     while (true) {
@@ -85,9 +81,9 @@ class Block {
   }
 
   //在block里验证这所有的transactions
-  validateTransactions(){
-    for(let transaction of this.transactions){
-      if(!transaction.isValid()){
+  validateTransactions() {
+    for (let transaction of this.transactions) {
+      if (!transaction.isValid()) {
         return false
       }
     }
@@ -123,9 +119,9 @@ class Chain {
   // 暴露给外部的方法不应该允许添加空地址的transaction
   addTransaction(transaction) {
     console.log(transaction)
-    if(!transaction.from || !transaction.to)
+    if (!transaction.from || !transaction.to)
       throw new Error('invalid from or to')
-    if(!transaction.isValid())
+    if (!transaction.isValid())
       throw new Error('invalid transaction, tampered or invalid sig')
 
     this.transactionPool.push(transaction);
@@ -182,7 +178,7 @@ class Chain {
     for (let i = 1; i <= this.chain.length - 1; i++) {
       const blockToValidate = this.chain[i];
       // block的transactions均valid
-      if (!blockToValidate.validateTransactions()){
+      if (!blockToValidate.validateTransactions()) {
         console.log('非法交易')
         return false
       }
