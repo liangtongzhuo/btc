@@ -1,0 +1,34 @@
+{
+  "name": "luotuocoin",
+  "version": "1.0.3",
+  "description": "A blockchain for educational purpose",
+  "main": "src/blockChain.js",
+  "keywords": [
+    "blockchain",
+    "bitcoin"
+  ],
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "elliptic": "^6.5.2",
+    "luotuocoin": "^1.0.2"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  },
+  "scripts": {
+    "test": "jest src/tests"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ycraaron/LuotuoCoin.git"
+  },
+  "author": "Aaron Yang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ycraaron/LuotuoCoin/issues"
+  },
+  "homepage": "https://github.com/ycraaron/LuotuoCoin#readme"
+}
