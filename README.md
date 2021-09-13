@@ -15,7 +15,7 @@
 区块链本质是一个分布式数据库，区块链每次增加数据都会再区块链上增加一个块，每一个块上面包含本次转账的数据。
 
 # 2. 块 Block
-块重要概念，每诞生一个块，上面记录转账数据。
+块是重要概念，每诞生一个块，上面记录转账数据。
 ```
 const sha256 = require("crypto-js/sha256");
 class Block {
@@ -28,7 +28,7 @@ class Block {
 		this.hash = this.mine(); // 这个区块的哈希
 	}
 
-	// 这里把整个区块都加入哈希运算
+	// 这里把整个区块的内容都加入哈希运算
 	computeHash() {
 		return sha256(
 			JSON.stringify(this.transactions) +
@@ -64,7 +64,7 @@ const blokc = new Block('小明给小李了10块钱', 'root');
 console.log(blokc);
 
 ```
-打印
+输出
 ```
 Block {
   transactions: '小明给小李了10块钱',
@@ -106,13 +106,14 @@ blokc.transactions = '小明给小李了20块钱';
 // 校验
 console.log(blokc.isValid());
 ```
-打印，表示内容被篡改了。
+输出，表示内容被篡改了。
 ```
 false
 ```
 
 # 5. 挖矿
-简单理解，BTC 是分布式，保证数据统一，BTC 调整哈希难度 10 分钟左右出一个区块。我们调整哈希运算出来的值保证哈希值不那么容易运算出来，开头 000 越多，越难算出来，这也是挖矿的由来。
+简单理解，BTC 是分布式，保证数据统一，BTC 调整哈希难度 10 分钟左右出一个区块。
+我们调整哈希运算出来的值保证哈希值不那么容易运算出来，开头 000 越多，越难算出来，这也是挖矿的由来。
 ```
 	mine() {
 		// 计算出来的哈希值，我们调整难度，开头必须是000
@@ -131,7 +132,7 @@ const blokc = new Block('小明给小李了10块钱', 'root');
 
 
 # 6. 区块链 BlockChain
-多个区块就组成一个区块链，我们可以看到 blokc1.hash，传到了下一个块当previousHash，这样区块形成的依赖关系，除最后一个区块前面任何一个区块的数据修改，我们验证哈希的时候就会对不上，
+多个区块就组成一个区块链，我们可以看到 blokc1.hash，传到了下一个块当previousHash，这样区块形成的依赖关系，除最后一个区块前面任何一个区块的数据修改，我们验证哈希的时候就会对不上。
 ```
 const blokc1 = new Block('小明给小李了10块钱', 'root');
 const blokc2 = new Block('小明给小李了20块钱', blokc1.hash);
@@ -223,7 +224,7 @@ blockChain.addBlock(block1);
 
 console.log(blockChain);
 ```
-打印
+输出
 ```
 BlockChain {
   chain: [
@@ -353,13 +354,12 @@ BlockChain {
       hash: '00088e43b85eb31887056673d7760d681525b7f91e5774a0cc8ca9d4ee40907f'
     }
   ]
-} 
-true
+} true
 ```
 
 
 # GitHub
-地址：https://github.com/liangtongzhuo/btc
+以上是简单区块链技术的概要，代码地址：https://github.com/liangtongzhuo/btc
 
 
 
