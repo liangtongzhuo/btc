@@ -1,7 +1,7 @@
 const ecLib = require('elliptic').ec;
 const ec = new ecLib('secp256k1') // curve name
 
-const { Transaction, Chain, Block } = require("./blockChainDemo");
+const { Transaction, Chain } = require("./blockChainDemo");
 
 const chain = new Chain(3);
 const keyPairSender = ec.genKeyPair();
